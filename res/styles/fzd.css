@@ -1,0 +1,52 @@
+div.h-flow {
+    flow:vertical;
+    position: absolute;
+    width: 400px;
+    height:*;
+    top: 10px;
+    left: 10px;
+    /* flow: horizontal-flow; */
+    padding: 0;
+    border-spacing: 10px;
+}
+
+div.test {
+    margin-left: 350px;
+    margin-top: 400px;
+}
+/* div.h-flow > * { */
+/* height: *; */
+/* min-height: 100px; */
+/* } */
+
+table {
+    /* width: 400px; */
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 1px;
+    /* border: 1px solid #ccc; */
+}
+
+textarea {
+    font-size:medium;
+}
+
+body {
+    font-size:medium;
+    display:inline;
+    color:gray;
+}
+
+button, select, input {
+    font-size:medium;
+}
+#form {
+    /* margin-top: 10px; */
+}
+#dv_cfg {
+    position: absolute;
+    top: 500px;
+    left: 10px;
+}

@@ -1,0 +1,65 @@
+#ports {
+    width: 80px;
+    height: 25px;
+    /* line-height: 25px; */
+    margin: 0 0 5px 0
+}
+
+#btn_connect {
+    margin: 0 0 5px 0
+}
+input {
+    height: 25px;
+}
+
+/* table { */
+/*     font:system; */
+/*     height:*; width:500px; */
+/*     border:1px solid black; */
+/*     flow:table-fixed; // ATTN: this value is mission critical! */
+/* } */
+
+/* table > tbody, table > tbody { border-spacing:0; } */
+
+/* table > tbody */
+/* { */
+/*     overflow: scroll-indicator; */
+/*     size:*; */
+/* } */
+
+/* table > tbody > tr { */
+/*     behavior:form; // mission critical: each repeated child is treated as a form so it can accept object values */
+/* } */
+
+/* table > tbody > tr.highlighted { */
+/*     background: #da9; */
+/* } */
+
+/* table > tbody > tr:hover { */
+/*     background: #bcd; */
+/* } */
+
+/* table > tbody > tr:current { */
+/*     background:gold; */
+/* } */
+
+/* table td:nth-child(1), */
+/* table th:nth-child(1) { width:100px; } */
+/* table td:nth-child(2), */
+/* table th:nth-child(2) { width:100px; } */
+
+/* table td:last-child, */
+/* table th:last-child { width:30em; } */
+
+
+    @import url(../styles/vgrid.css);
+
+    table { style-set: vgrid; // see vgrid.css
+            width:*;
+            height:*; }
+
+    table th:nth-child(1) { width:100px; }
+    table th:nth-child(2) { width:200px; }
+    table th:nth-child(3) { width:200px; }
+
+    table th:last-child { width:*; }

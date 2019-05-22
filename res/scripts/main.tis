@@ -1,0 +1,80 @@
+include "../scripts/vlist.tis";
+
+var records = new Array();
+var vlist = $(table);
+
+function sensor_work_report(addr,
+                       force) {
+
+    var now = new Date();
+    var timestamp = now.toLocaleString();
+    records.push {index:addr.toString(), color:force.toString(), caption:"正常", timestamp: timestamp};
+}
+
+function self.ready() {
+
+    vlist.value = records;
+    vlist.tbody.currentIndex = 0;
+
+    var gen = 0;
+
+    $(#mutate) << event click()
+    {
+        // var now = new Date();
+        // var timestamp = now.toLocaleString();
+        // // records.push {index: records.length, caption:100.23, timestamp:timestamp };
+        // records.push {index: records.length, color:"绿色", caption:"正常", timestamp: timestamp};
+        // ++gen;
+        sensor_work_report(123, 111);
+
+    // var now = new Date();
+    // var timestamp = now.toLocaleString();
+    //     var addr = 123;
+    // records.push {index: addr, color:"绿色", caption:"正常", timestamp: timestamp};
+    }
+}
+
+var port_status = 0;
+
+function add_ports(port) {
+    var _opt = new Element("option", port);
+    $(#ports).options.append(_opt);
+    _opt.execCommand("set-current");
+}
+
+$(#btn_connect).on("click", function() {
+    if (port_status == 1) {
+        view.closePort();
+
+        $(#btn_connect).value = "连接";
+
+        port_status = 0;
+        $(#ports).state.disabled = false;
+
+    } else {
+        var ret = view.openPort($(#ports).value);
+        if (ret == -1) {
+            view.msgbox(#alert, "打开串口失败");
+            return;
+        }
+
+        $(#ports).state.disabled = true;
+        port_status = 1;
+        $(#btn_connect).value = "断开"
+    }
+});
+
+$(#btn_collect).on("click", function() {
+    view.sendCmd("start_collect");
+});
+
+$(#btn_work).on("click", function() {
+    view.sendCmd("mode_work");
+});
+
+$(#btn_clear).on("click", function() {
+    while (records.length) {
+        records.remove(0);
+    }
+});
+

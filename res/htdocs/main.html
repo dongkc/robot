@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- <style src="../styles/fzd.css" /> -->
+        <script type="text/tiscript" src="../scripts/main.tis"></script>
+        <style>
+         .btn {
+             width: 100px;
+             height: 25px;
+             line-height: 25px;
+             padding: 0;
+             margin:0;
+         }
+         #ports {
+             width: 80px;
+             height: 25px;
+             /* line-height: 25px; */
+             margin: 0 0 5px 0
+         }
+
+         #btn_connect {
+             margin: 0 0 5px 0
+         }
+         input {
+             height: 25px;
+         }
+         #cb_set0, #cb_set1, #cb_set2, #cb_set3 {
+             width: 25px;
+             height: 25px;
+             margin: 5px 5px 0 5px;
+         }
+         .inner {
+             vertical-align: middle;
+         }
+
+html {
+    background-color:#ededed;
+}
+        </style>
+    </head>
+
+    <body>
+        <div .h-flow style='float:left'>
+            <div>
+                <select id="ports"></select>
+                <button class="btn" id="btn_connect">连接</button>
+            </div>
+                <div id="mode_group" disabled>
+                <button class="btn" id="btn_mode_config">配置模式</button>
+                <button class="btn" id="btn_mode_test">测试模式</button>
+                <button class="btn" id="btn_mode_run">运行模式</button>
+                </div>
+                <br />
+                <br />
+
+            <div id="gp_biaoding" disabled>
+                <table>
+                    <tr>
+                        <td>归零值：</td>
+                        <td class='inner'><input id="set0" type="number"><input id="cb_set0" type="checkbox" value=""></td>
+                        <td><button class="btn" id="btn_set0">归 零</button></td>
+                    </tr>
+                    <tr>
+                        <td>标定值1：</td>
+                        <td><input id="set1" type="number"><input id="cb_set1" type="checkbox" value=""></td>
+                        <td><button class="btn" id="btn_set1">标定1</button></td>
+                    </tr>
+                    <tr>
+                        <td>标定值2：</td>
+                        <td><input id="set2" type="number"><input id="cb_set2" type="checkbox" value=""></td>
+                        <td><button class="btn" id="btn_set2">标定2</button></td>
+                    </tr>
+                    <tr>
+                        <td>标定值3：</td>
+                        <td><input id="set3" type="number"><input id="cb_set3" type="checkbox" value=""></td>
+                        <td><button class="btn" id="btn_set3">标定3</button></td>
+                    </tr>
+                <tr>
+                    <td>设备地址：</td>
+                    <td><input id="ipt_addr" type="number"></td>
+                    <td><button class="btn" id="btn_addr">设置 </button></td>
+                </tr>
+                <tr>
+                    <td>通讯频率：</td>
+                    <td><input id="ipt_freq" type="number"></td>
+                    <td><button class="btn" id="btn_freq">设置 </button></td>
+                </tr>
+                <tr>
+                    <td>发射功率：</td>
+                    <td><input id="ipt_power" type="number"></td>
+                    <td><button class="btn" id="btn_power">设置</button></td>
+                </tr>
+                <tr>
+                    <td>温度校正：</td>
+                    <td><input id="ipt_tmv" type="number"></td>
+                    <td><button class="btn" id="btn_tmv">设置</button></td>
+                </tr>
+                <tr>
+                    <td>松动阀值1：</td>
+                    <td><input id="ipt_loose1" type="number"></td>
+                    <td><button class="btn" id="btn_loose1">设置</button></td>
+                </tr>
+                <tr>
+                    <td>松动阀值2：</td>
+                    <td><input id="ipt_loose2" type="number"></td>
+                    <td><button class="btn" id="btn_loose2">设置</button></td>
+                </tr>
+                <tr>
+                    <td>过压阀值：</td>
+                    <td><input id="ipt_opressure" type="number"></td>
+                    <td><button class="btn" id="btn_opressure">设置</button></td>
+                </tr>
+
+                </table>
+                
+            </div>
+        </div>
+        <div style='float: left;margin-left:10px'>
+            <div style='float: left; margin-left:10px'>
+                <button class="btn" id="btn1" style='display: block;margin: 5px 0'>读取标定值</button>
+                <table>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>归零值:</td>
+                    <td><input|number disabled id="lb_set0"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>标定值1:</td>
+                    <td><input|number disabled id="lb_set1"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>标定值2:</td>
+                    <td><input|number disabled id="lb_set2"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>标定值3:</td>
+                    <td><input|number disabled id="lb_set3"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>采集值:</td>
+                    <td><input|number disabled id="lb_caiji"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>压力值:</td>
+                    <td><input|number disabled id="lb_yali"></td>
+                </tr>
+                </table>
+            </div>
+
+            <div style='float: left; margin-left:10px'>
+                <button class="btn" id="btn_cfg" style='display: block;margin: 5px 0'>读取参数值</button>
+                <table>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>地址值:</td>
+                    <td><input|number disabled id="lb_addr"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>频率值:</td>
+                    <td><input|number disabled id="lb_freq"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>功率值:</td>
+                    <td><input|number disabled id="lb_power"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>温度校正:</td>
+                    <td><input|number disabled id="lb_tmv"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>松动阀值1:</td>
+                    <td><input|number disabled id="lb_loose1"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>松动阀值2:</td>
+                    <td><input|number disabled id="lb_loose2"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>过压值:</td>
+                    <td><input|number disabled id="lb_opress"></td>
+                </tr>
+                </table>
+            </div>
+
+                <!-- <label style='display: block;margin: 5px 0'>压力值: <input|number disabled id="lb_pressure"></label> -->
+                <!-- <label style='display: block;margin: 5px 0'>地址值: <input|number disabled id="lb_pressure"></label> -->
+                <!-- <label style='display: block;margin: 5px 0'>RSSIM: <input|number disabled id="lb_pressure"></label> -->
+                <!-- <label style='display: block;margin: 5px 0'>RSSIS: <input|number disabled id="lb_pressure"></label> -->
+                
+        </div>
+            <div style='float: left; margin-left:10px'>
+                <button class="btn" id="btn_cfg" style='display: block;margin: 5px 0'>传感器上报</button>
+                <table>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>采集值:</td>
+                    <td><input|number disabled id="lb_ad"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>压力值:</td>
+                    <td><input|number disabled id="lb_press"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>温度值:</td>
+                    <td><input|number disabled id="lb_wendu"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>地址值:</td>
+                    <td><input|number disabled id="lb_addr_1"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>RSSIM:</td>
+                    <td><input|number disabled id="lb_rssim"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>RSSIS:</td>
+                    <td><input|number disabled id="lb_rssis"></td>
+                </tr>
+                <tr>
+                    <td style='display: block;margin: 5px 0'>时间戳:</td>
+                    <td><input|text disabled id="lb_timestamp"></td>
+                </tr>
+                </table>
+            </div>
+
+        <div .test style='float:left;margin-left:10px''>
+            <textarea id="ta_serial" readonly rows="15" cols="30" style='width: 293px;height: 403px;'></textarea>
+        </div>
+        <br />
+        <div id="dv_cfg" disabled>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script type="text/tiscript" src="../scripts/main.tis"></script>
+        <style src="../styles/fzd-user.css" />
+    </head>
+    <body>
+        <div>
+            <select id="ports"></select>
+            <button class="btn" id="btn_connect">连接</button>
+            <button #btn_collect>开始巡检</button>
+            <button #btn_work>工作模式</button>
+            <button #mutate>测试数据</button>
+            <button #btn_clear>清除</button>
+            <button #btn_save>保存数据</button>
+        </div>
+        <table >
+            <thead>
+                <tr><th(index)>设备编号</th><th(color)>颜色</th><th(caption)>状态</th><th(timestamp)>下次启动工作时间</th></tr>
+            </thead>
+            <tbody>
+                <tr><td(index)></td><td(color)></td><td(caption)></td><td(timestamp)></td></tr>
+            </tbody>
+        </table>
+    </body>
+</html>
