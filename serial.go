@@ -72,7 +72,7 @@ func serial_read(port serial.Port, root *sciter.Element) {
 
 func recv(port serial.Port, out chan <- []byte, stop chan <- string) {
 	frame := make([]byte, 0)
-	buf := make([]byte, 32)
+	buf := make([]byte, 10000000)
 
 	for {
 		// time.Sleep(3000* time.Millisecond)
@@ -82,7 +82,10 @@ func recv(port serial.Port, out chan <- []byte, stop chan <- string) {
 			return
 		}
 
-		frame = append(frame, buf[:n]...)
+		fmt.Println("recv: ", n, " ", hex.EncodeToString(buf[:n]))
+		// frame = append(frame, buf[:n]...)
+		// fmt.Println("frame1: ", hex.EncodeToString(frame))
+		continue
 
 		// 分桢 桢开头处理
 		if frame[0] != 0x0A {
@@ -105,7 +108,6 @@ func recv(port serial.Port, out chan <- []byte, stop chan <- string) {
 
 		// 检查桢尾
 		body_len := frame[1]
-		fmt.Println("frame1: ", hex.EncodeToString(frame))
 		if frame[body_len + 3] == 0xDD &&
 			frame[body_len + 4] == 0xEE {
 			// 发送出去

@@ -65,7 +65,7 @@ func main() {
 
 	w.SetResourceArchive(resources)
 
-	w.LoadFile("this://app/htdocs/table.htm")
+	w.LoadFile("this://app/htdocs/lpms.html")
 
 	//设置标题
 	w.SetTitle("法智达智能传感器数据采集工具")
