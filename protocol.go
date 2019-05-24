@@ -2,10 +2,16 @@ package main
 
 import (
 	"fmt"
+	"time"
+	// "math"
 	"encoding/hex"
 	"encoding/binary"
 	"github.com/sciter-sdk/go-sciter"
 )
+
+func NowAsUnixMilli() int64 {
+    return time.Now().UnixNano() / 1e6
+}
 
 func parse(buf []byte) {
 	fmt.Println("buf: ", hex.EncodeToString(buf))
@@ -90,50 +96,32 @@ func send_data1(cmd1 string, val int) {
 }
 
 func process(root *sciter.Element, data []byte) {
-	fmt.Println("msg: ", hex.EncodeToString(data))
+	// fmt.Println("msg: ", hex.EncodeToString(data))
 
-	if len(data) < 5 {
+	if len(data) < 7 {
 		return
 	}
 
-	switch data[2] {
-	case 0x34:
+	// addr := binary.LittleEndian.Uint32(data)
+	switch data[1] {
+	case 0x0b:
 		buf := make([]byte, 4)
 		// addr
-		copy(buf, data[3:6])
-		buf[3] = 0x00
+		copy(buf, data[7:11])
 		
-		addr := binary.LittleEndian.Uint32(buf)
+		// gyr_x := math.Float32frombits(binary.LittleEndian.Uint32(data[11:15]))
+		// gyr_y := math.Float32frombits(binary.LittleEndian.Uint32(data[15:19]))
+		// gyr_z := math.Float32frombits(binary.LittleEndian.Uint32(data[19:23]))
 
-		force  := binary.LittleEndian.Uint16(data[6:8])
-		root.CallFunction("sensor_work_report",
-			sciter.NewValue(int(addr)),
-			sciter.NewValue(int(force)))
+		angel   := int(int16(binary.LittleEndian.Uint16(data[4:6])))
+		angel_a := float32(int16(binary.LittleEndian.Uint16(data[6:8])))
+		gyr_x   := float32(int16(binary.LittleEndian.Uint16(data[8:10])))
+		gyr_y   := float32(int16(binary.LittleEndian.Uint16(data[10:12])))
+		gyr_z   := float32(int16(binary.LittleEndian.Uint16(data[12:14])))
+		fmt.Printf("%d %d %.2f %.2f %.2f %.2f\n", NowAsUnixMilli(), angel / 100, angel_a / 50, gyr_x / 1000, gyr_y / 1000, gyr_z / 1000)
 
-		send_data("report_confirm")
-
-	case 0x33:
-		buf := make([]byte, 4)
-		// addr
-		copy(buf, data[3:6])
-		buf[3] = 0x00
-		
-		addr := binary.LittleEndian.Uint32(buf)
-
-		force  := binary.LittleEndian.Uint16(data[6:8])
-		ad     := binary.LittleEndian.Uint16(data[8:10])
-
-		temp   := data[10]
-
-		rssi_m := data[11]
-		rssi_s := data[12]
-
-		root.CallFunction("sensor_report",
-			sciter.NewValue(int(addr)),
-			sciter.NewValue(int(force)),
-			sciter.NewValue(int(ad)),
-			sciter.NewValue(int(temp)),
-			sciter.NewValue(int(rssi_m)),
-			sciter.NewValue(int(rssi_s)))
+		// root.CallFunction("sensor_work_report",
+		// 	sciter.NewValue(int(addr)),
+		// 	sciter.NewValue(int(force)))
 	}
 }

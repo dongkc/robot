@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"encoding/hex"
+	// "encoding/hex"
+	// "encoding/binary"
 	// "github.com/sciter-sdk/go-sciter/window"
 	"github.com/sciter-sdk/go-sciter"
 
@@ -43,7 +44,7 @@ func listSerialPort() ([]string, error) {
 
 func serial_open(name string) (serial.Port, error) {
 	mode := &serial.Mode{
-		BaudRate: 9600,
+		BaudRate: 115200,
 		Parity:   serial.NoParity,
 		DataBits: 8,
 		StopBits: serial.OneStopBit,
@@ -82,15 +83,12 @@ func recv(port serial.Port, out chan <- []byte, stop chan <- string) {
 			return
 		}
 
-		fmt.Println("recv: ", n, " ", hex.EncodeToString(buf[:n]))
-		// frame = append(frame, buf[:n]...)
-		// fmt.Println("frame1: ", hex.EncodeToString(frame))
-		continue
+		frame = append(frame, buf[:n]...)
 
 		// 分桢 桢开头处理
-		if frame[0] != 0x0A {
+		if frame[0] != 0x3A {
 			for i := 0; i < len(frame); i++ {
-				if (frame[i] == 0x0A) {
+				if (frame[i] == 0x3A) {
 					frame = frame[i:len(frame)]
 					break;
 				}
@@ -102,20 +100,22 @@ func recv(port serial.Port, out chan <- []byte, stop chan <- string) {
 			continue
 		}
 
-		if len(frame) < int(frame[1] + 5) {
+		body_len := frame[3]
+		if len(frame) < int(body_len + 7) {
+			// fmt.Println("len: ", len(frame), " body_len ", int(body_len + 10))
 			continue
 		}
 
+		// fmt.Println("len: ", body_len, " frame: ", hex.EncodeToString(frame[:body_len + 7]))
 		// 检查桢尾
-		body_len := frame[1]
-		if frame[body_len + 3] == 0xDD &&
-			frame[body_len + 4] == 0xEE {
+		if frame[body_len + 5] == 0x0D &&
+			frame[body_len + 6] == 0x0A {
 			// 发送出去
-			out <- frame[:body_len + 5]
+			out <- frame[:body_len + 7]
 		}
+		// fmt.Println("frame2: ", hex.EncodeToString(frame[:body_len + 11]))
 
 		// 处理下一桢数据
-		frame = frame[body_len + 5 :]
-		fmt.Println("frame2: ", hex.EncodeToString(frame))
+		frame = frame[body_len + 6 :]
 	}
 }
