@@ -10,7 +10,8 @@ import (
 )
 
 func NowAsUnixMilli() int64 {
-    return time.Now().UnixNano() / 1e6
+	t := time.Date(2019, time.May, 27, 0, 0, 0, 0, time.UTC)
+    return (time.Now().UnixNano() - t.UnixNano()) / 1e6
 }
 
 func parse(buf []byte) {

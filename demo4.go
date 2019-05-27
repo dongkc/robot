@@ -36,6 +36,30 @@ func setWinHandler(w *window.Window) {
 		return sciter.NewValue(1)
 	})
 
+	w.DefineFunction("sendCmd2", func(args ...*sciter.Value) *sciter.Value {
+		send_data2(args[0].String())
+
+		return sciter.NewValue(1)
+	})
+
+	w.DefineFunction("openPort2", func(args ...*sciter.Value) *sciter.Value {
+		err := errors.New("initialize")
+
+		g_port2, err = serial_open2(args[0].String())
+		if err != nil {
+			return sciter.NewValue(-1)
+		}
+
+		go serial_read2(g_port2, g_root)
+
+		return sciter.NewValue(1)
+	})
+
+	w.DefineFunction("closePort2", func(args ...*sciter.Value) *sciter.Value {
+		g_port2.Close()
+		return sciter.NewValue(1)
+	})
+
 	w.DefineFunction("openPort", func(args ...*sciter.Value) *sciter.Value {
 		err := errors.New("initialize")
 

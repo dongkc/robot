@@ -8,19 +8,17 @@
         <div>
             <select id="ports"></select>
             <button class="btn" id="btn_connect">connect</button>
+            <button class="btn" id="btn_connect2">connect2</button>
+            <button #btn_send>send</button>
             <button #btn_collect>start</button>
             <button #btn_work>work</button>
             <button #mutate>test</button>
             <button #btn_clear>clean</button>
             <button #btn_save>save</button>
         </div>
-        <table >
-            <thead>
-                <tr><th(index)>index</th><th(color)>color</th><th(caption)>status</th><th(timestamp)>timestamp</th></tr>
-            </thead>
-            <tbody>
-                <tr><td(index)></td><td(color)></td><td(caption)></td><td(timestamp)></td></tr>
-            </tbody>
-        </table>
+        <div>
+            <textarea id="ta_serial1" readonly rows="50" cols="30" ></textarea>
+            <textarea id="ta_serial2" readonly rows="50" cols="30" ></textarea>
+        </div>
     </body>
 </html>

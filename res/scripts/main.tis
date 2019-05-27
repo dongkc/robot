@@ -1,14 +1,25 @@
 include "../scripts/vlist.tis";
 
+
 var records = new Array();
 var vlist = $(table);
 
+var row_len = 0;
 function sensor_work_report(addr,
                        force) {
 
     var now = new Date();
     var timestamp = now.toLocaleString();
     records.push {index:addr.toString(), color:force.toString(), caption:"正常", timestamp: timestamp};
+}
+
+function sensor_report(info) {
+    row_len ++;
+    if (row_len > 50) {
+    $(#ta_serial1).value = ""; 
+        row_len = 0;
+    }
+    $(#ta_serial1).value += info; 
 }
 
 function self.ready() {
@@ -44,15 +55,15 @@ function add_ports(port) {
 
 $(#btn_connect).on("click", function() {
     if (port_status == 1) {
-        view.closePort();
+        view.closePort2();
 
-        $(#btn_connect).value = "连接";
+        $(#btn_connect).value = "connect";
 
         port_status = 0;
         $(#ports).state.disabled = false;
 
     } else {
-        var ret = view.openPort($(#ports).value);
+        var ret = view.openPort2($(#ports).value);
         if (ret == -1) {
             view.msgbox(#alert, "打开串口失败");
             return;
@@ -60,7 +71,7 @@ $(#btn_connect).on("click", function() {
 
         $(#ports).state.disabled = true;
         port_status = 1;
-        $(#btn_connect).value = "断开"
+        $(#btn_connect).value = "disconnect"
     }
 });
 
@@ -78,3 +89,6 @@ $(#btn_clear).on("click", function() {
     }
 });
 
+$(#btn_send).on("click", function() {
+    view.sendCmd2("");
+});
