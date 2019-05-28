@@ -92,7 +92,7 @@ func main() {
 	w.LoadFile("this://app/htdocs/lpms.html")
 
 	//设置标题
-	w.SetTitle("法智达智能传感器数据采集工具")
+	w.SetTitle("机器人研发中心IMU测试工具")
 
 	w.SetOption(sciter.SCITER_SET_DEBUG_MODE, 1)
 	//获取根元素

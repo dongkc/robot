@@ -46,16 +46,20 @@ function self.ready() {
 }
 
 var port_status = 0;
+var port_status2 = 0;
 
 function add_ports(port) {
     var _opt = new Element("option", port);
     $(#ports).options.append(_opt);
     _opt.execCommand("set-current");
+    var _opt2 = new Element("option", port);
+    $(#ports2).options.append(_opt2);
+    _opt2.execCommand("set-current");
 }
 
 $(#btn_connect).on("click", function() {
     if (port_status == 1) {
-        view.closePort2();
+        view.closePort();
 
         $(#btn_connect).value = "connect";
 
@@ -63,7 +67,7 @@ $(#btn_connect).on("click", function() {
         $(#ports).state.disabled = false;
 
     } else {
-        var ret = view.openPort2($(#ports).value);
+        var ret = view.openPort($(#ports).value);
         if (ret == -1) {
             view.msgbox(#alert, "打开串口失败");
             return;
@@ -72,6 +76,28 @@ $(#btn_connect).on("click", function() {
         $(#ports).state.disabled = true;
         port_status = 1;
         $(#btn_connect).value = "disconnect"
+    }
+});
+
+$(#btn_connect2).on("click", function() {
+    if (port_status2 == 1) {
+        view.closePort2();
+
+        $(#btn_connect2).value = "connect";
+
+        port_status2 = 0;
+        $(#ports).state.disabled = false;
+
+    } else {
+        var ret = view.openPort2($(#ports2).value);
+        if (ret == -1) {
+            view.msgbox(#alert, "打开串口失败");
+            return;
+        }
+
+        $(#ports2).state.disabled = true;
+        port_status2 = 1;
+        $(#btn_connect2).value = "disconnect"
     }
 });
 
