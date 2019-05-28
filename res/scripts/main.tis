@@ -47,6 +47,7 @@ function self.ready() {
 
 var port_status = 0;
 var port_status2 = 0;
+var port_status_lpms9 = 0;
 
 function add_ports(port) {
     var _opt = new Element("option", port);
@@ -55,6 +56,10 @@ function add_ports(port) {
     var _opt2 = new Element("option", port);
     $(#ports2).options.append(_opt2);
     _opt2.execCommand("set-current");
+
+    var _opt_lpms9 = new Element("option", port);
+    $(#ports_lpms9).options.append(_opt_lpms9);
+    _opt_lpms9.execCommand("set-current");
 }
 
 $(#btn_connect).on("click", function() {
@@ -98,6 +103,28 @@ $(#btn_connect2).on("click", function() {
         $(#ports2).state.disabled = true;
         port_status2 = 1;
         $(#btn_connect2).value = "disconnect"
+    }
+});
+
+$(#btn_conn_lpms9).on("click", function() {
+    if (port_status_lpms9 == 1) {
+        view.closePortLpms9();
+
+        $(#btn_conn_lpms9).value = "lpms9 connect";
+
+        port_status_lpms9 = 0;
+        $(#ports).state.disabled = false;
+
+    } else {
+        var ret = view.openPortLpms9($(#ports_lpms9).value);
+        if (ret == -1) {
+            view.msgbox(#alert, "打开串口失败");
+            return;
+        }
+
+        $(#ports_lpms9).state.disabled = true;
+        port_status_lpms9 = 1;
+        $(#btn_conn_lpms9).value = "lpms9 disconnect"
     }
 });
 

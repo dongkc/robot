@@ -109,7 +109,7 @@ func process(root *sciter.Element, data []byte) {
 		buf := make([]byte, 4)
 		// addr
 		copy(buf, data[7:11])
-		
+
 		// gyr_x := math.Float32frombits(binary.LittleEndian.Uint32(data[11:15]))
 		// gyr_y := math.Float32frombits(binary.LittleEndian.Uint32(data[15:19]))
 		// gyr_z := math.Float32frombits(binary.LittleEndian.Uint32(data[19:23]))

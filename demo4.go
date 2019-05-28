@@ -77,12 +77,31 @@ func setWinHandler(w *window.Window) {
 		g_port.Close()
 		return sciter.NewValue(1)
 	})
+
+	w.DefineFunction("openPortLpms9", func(args ...*sciter.Value) *sciter.Value {
+		err := errors.New("initialize")
+
+		g_port_lpms9, err = serial_lpms9_open(args[0].String())
+		if err != nil {
+			return sciter.NewValue(-1)
+		}
+
+		go serial_lpms9_read(g_port_lpms9, g_root)
+
+		return sciter.NewValue(1)
+	})
+
+	w.DefineFunction("closePortLpms9", func(args ...*sciter.Value) *sciter.Value {
+		g_port_lpms9.Close()
+		return sciter.NewValue(1)
+	})
+
 }
 
 func main() {
 	//创建一个新窗口
 	w, err := window.New(sciter.DefaultWindowCreateFlag,
-		&sciter.Rect{Left: 0, Top: 0, Right: 700, Bottom: 600})
+		&sciter.Rect{Left: 0, Top: 0, Right: 1000, Bottom: 800})
 	if err != nil {
 		log.Fatal(err)
 	}

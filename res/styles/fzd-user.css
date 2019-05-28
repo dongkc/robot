@@ -5,9 +5,33 @@
     margin: 0 0 5px 0
 }
 
+#ports2 {
+    width: 80px;
+    height: 25px;
+    /* line-height: 25px; */
+    margin: 0 0 5px 0
+}
+
+#ports_lpms9 {
+    width: 80px;
+    height: 25px;
+    /* line-height: 25px; */
+    margin: 0 0 5px 0
+}
+
+
 #btn_connect {
     margin: 0 0 5px 0
 }
+
+#btn_connect2 {
+    margin: 0 0 5px 0
+}
+
+#btn_conn_lpms9 {
+    margin: 0 0 5px 0
+}
+
 input {
     height: 25px;
 }
