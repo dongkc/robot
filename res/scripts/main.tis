@@ -5,6 +5,8 @@ var records = new Array();
 var vlist = $(table);
 
 var row_len = 0;
+var row_lpms9_len = 0;
+var row_jy901_len = 0;
 function sensor_work_report(addr,
                        force) {
 
@@ -13,13 +15,31 @@ function sensor_work_report(addr,
     records.push {index:addr.toString(), color:force.toString(), caption:"正常", timestamp: timestamp};
 }
 
+function sensor_lpms9_report(info) {
+    row_lpms9_len ++;
+    if (row_lpms9_len > 50) {
+    $(#ta_serial_lpms9).value = "";
+        row_lpms9_len = 0;
+    }
+    $(#ta_serial_lpms9).value += info;
+}
+
+function sensor_jy901_report(info) {
+    row_jy901_len ++;
+    if (row_jy901_len > 50) {
+    $(#ta_serial_jy901).value = "";
+        row_jy901_len = 0;
+    }
+    $(#ta_serial_jy901).value += info;
+}
+
 function sensor_report(info) {
     row_len ++;
     if (row_len > 50) {
-    $(#ta_serial1).value = ""; 
+    $(#ta_serial2).value = "";
         row_len = 0;
     }
-    $(#ta_serial1).value += info; 
+    $(#ta_serial12.value += info;
 }
 
 function self.ready() {

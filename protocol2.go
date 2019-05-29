@@ -47,7 +47,7 @@ func process2(root *sciter.Element, data []byte) {
 		gyr_z   := float32(int16(binary.LittleEndian.Uint16(data[30:32]))) * 16 / 32768
 		s := fmt.Sprintf("%d %.0f %.2f %.2f\n", NowAsUnixMilli(), angel, angel_a, gyr_z)
 
-		write_data("sensor1.dat", s)
+		write_data("sensor_jy901.dat", s)
 
 		root.CallFunction("sensor_report",
 			sciter.NewValue(s))

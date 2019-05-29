@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	// "encoding/hex"
 	"encoding/binary"
 	// "github.com/sciter-sdk/go-sciter/window"
@@ -102,9 +103,14 @@ func process_lpms9(root *sciter.Element, data []byte) {
 
 	switch data[3] {
 	case 0x09:
-		angel   := float32(int32(binary.LittleEndian.Uint32(data[19:23])))
-		angel_a := float32(int32(binary.LittleEndian.Uint32(data[31:35])))
-		gyr_z   := float32(int32(binary.LittleEndian.Uint32(data[12:16])))
-		fmt.Printf("%d %.0f %.2f %.2f\n", NowAsUnixMilli(), angel / 100, angel_a / 50, gyr_z / 1000)
+		angel   := math.Float32frombits(binary.LittleEndian.Uint32(data[71:75])) * 180 / math.Pi
+		angel_a := math.Float32frombits(binary.LittleEndian.Uint32(data[83:87]))
+		gyr_z   := math.Float32frombits(binary.LittleEndian.Uint32(data[31:35]))
+
+		s := fmt.Sprintf("%d %.0f %.2f %.2f\n", NowAsUnixMilli(), angel, angel_a, gyr_z)
+		write_data("sensor_lpms9.dat", s)
+
+		root.CallFunction("sensor_lpms9_report",
+			sciter.NewValue(s))
 	}
 }
