@@ -114,15 +114,14 @@ func process(root *sciter.Element, data []byte) {
 		// gyr_y := math.Float32frombits(binary.LittleEndian.Uint32(data[15:19]))
 		// gyr_z := math.Float32frombits(binary.LittleEndian.Uint32(data[19:23]))
 
-		angel   := int(int16(binary.LittleEndian.Uint16(data[4:6])))
-		angel_a := float32(int16(binary.LittleEndian.Uint16(data[6:8])))
-		gyr_x   := float32(int16(binary.LittleEndian.Uint16(data[8:10])))
-		gyr_y   := float32(int16(binary.LittleEndian.Uint16(data[10:12])))
-		gyr_z   := float32(int16(binary.LittleEndian.Uint16(data[12:14])))
-		fmt.Printf("%d %d %.2f %.2f %.2f %.2f\n", NowAsUnixMilli(), angel / 100, angel_a / 50, gyr_x / 1000, gyr_y / 1000, gyr_z / 1000)
+		angel   := int(int16(binary.LittleEndian.Uint16(data[4:6]))) / 100
+		angel_a := float32(int16(binary.LittleEndian.Uint16(data[6:8]))) / 50
+		gyr_z   := float32(int16(binary.LittleEndian.Uint16(data[12:14]))) / 1000
+		s := fmt.Sprintf("%d %.0f %.2f %.2f\n", NowAsUnixMilli(), angel, angel_a, gyr_z)
 
-		// root.CallFunction("sensor_work_report",
-		// 	sciter.NewValue(int(addr)),
-		// 	sciter.NewValue(int(force)))
+		write_data("sensor_lpms4.dat", s)
+
+		root.CallFunction("sensor_lpms4_report",
+			sciter.NewValue(s))
 	}
 }

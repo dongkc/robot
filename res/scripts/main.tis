@@ -4,7 +4,7 @@ include "../scripts/vlist.tis";
 var records = new Array();
 var vlist = $(table);
 
-var row_len = 0;
+var row_lpms4_len = 0;
 var row_lpms9_len = 0;
 var row_jy901_len = 0;
 function sensor_work_report(addr,
@@ -33,48 +33,30 @@ function sensor_jy901_report(info) {
     $(#ta_serial_jy901).value += info;
 }
 
-function sensor_report(info) {
-    row_len ++;
-    if (row_len > 50) {
-    $(#ta_serial2).value = "";
-        row_len = 0;
+function sensor_lpms4_report(info) {
+    row_lpms4_len ++;
+    if (row_lpms4_len > 50) {
+    $(#ta_serial_lpms4).value = "";
+        row_lpms4_len = 0;
     }
-    $(#ta_serial12.value += info;
+    $(#ta_serial_lpms4).value += info;
 }
 
 function self.ready() {
 
-    vlist.value = records;
-    vlist.tbody.currentIndex = 0;
-
     var gen = 0;
-
-    $(#mutate) << event click()
-    {
-        // var now = new Date();
-        // var timestamp = now.toLocaleString();
-        // // records.push {index: records.length, caption:100.23, timestamp:timestamp };
-        // records.push {index: records.length, color:"绿色", caption:"正常", timestamp: timestamp};
-        // ++gen;
-        sensor_work_report(123, 111);
-
-    // var now = new Date();
-    // var timestamp = now.toLocaleString();
-    //     var addr = 123;
-    // records.push {index: addr, color:"绿色", caption:"正常", timestamp: timestamp};
-    }
 }
 
-var port_status = 0;
-var port_status2 = 0;
+var port_status_jy901 = 0;
+var port_status_lpms4 = 0;
 var port_status_lpms9 = 0;
 
 function add_ports(port) {
     var _opt = new Element("option", port);
-    $(#ports).options.append(_opt);
+    $(#ports_jy901).options.append(_opt);
     _opt.execCommand("set-current");
     var _opt2 = new Element("option", port);
-    $(#ports2).options.append(_opt2);
+    $(#ports_lpms4).options.append(_opt2);
     _opt2.execCommand("set-current");
 
     var _opt_lpms9 = new Element("option", port);
@@ -82,47 +64,47 @@ function add_ports(port) {
     _opt_lpms9.execCommand("set-current");
 }
 
-$(#btn_connect).on("click", function() {
-    if (port_status == 1) {
-        view.closePort();
+$(#btn_conn_jy901).on("click", function() {
+    if (port_status_jy901 == 1) {
+        view.closePortJY901();
 
-        $(#btn_connect).value = "connect";
+        $(#btn_conn_jy901).value = "jy901 connect";
 
-        port_status = 0;
-        $(#ports).state.disabled = false;
+        port_status_jy901 = 0;
+        $(#ports_jy901).state.disabled = false;
 
     } else {
-        var ret = view.openPort($(#ports).value);
+        var ret = view.openPortJY901($(#ports_jy901).value);
         if (ret == -1) {
-            view.msgbox(#alert, "打开串口失败");
+            view.msgbox(#alert, "open serial port failed");
             return;
         }
 
-        $(#ports).state.disabled = true;
-        port_status = 1;
-        $(#btn_connect).value = "disconnect"
+        $(#ports_jy901).state.disabled = true;
+        port_status_jy901 = 1;
+        $(#btn_conn_jy901).value = "jy901 disconnect"
     }
 });
 
-$(#btn_connect2).on("click", function() {
-    if (port_status2 == 1) {
-        view.closePort2();
+$(#btn_conn_lpms4).on("click", function() {
+    if (port_status_lpms4 == 1) {
+        view.closePortLpms4();
 
-        $(#btn_connect2).value = "connect";
+        $(#btn_conn_lpms4).value = "lpms4 connect";
 
-        port_status2 = 0;
-        $(#ports).state.disabled = false;
+        port_status_lpms4 = 0;
+        $(#ports_lpms4).state.disabled = false;
 
     } else {
-        var ret = view.openPort2($(#ports2).value);
+        var ret = view.openPortLpms4($(#ports_lpms4).value);
         if (ret == -1) {
-            view.msgbox(#alert, "打开串口失败");
+            view.msgbox(#alert, "open serial port failed");
             return;
         }
 
         $(#ports2).state.disabled = true;
-        port_status2 = 1;
-        $(#btn_connect2).value = "disconnect"
+        port_status_lpms4 = 1;
+        $(#btn_conn_lpms4).value = "lpms4 disconnect"
     }
 });
 
@@ -133,12 +115,12 @@ $(#btn_conn_lpms9).on("click", function() {
         $(#btn_conn_lpms9).value = "lpms9 connect";
 
         port_status_lpms9 = 0;
-        $(#ports).state.disabled = false;
+        $(#ports_lpms9).state.disabled = false;
 
     } else {
         var ret = view.openPortLpms9($(#ports_lpms9).value);
         if (ret == -1) {
-            view.msgbox(#alert, "打开串口失败");
+            view.msgbox(#alert, "open serial port failed");
             return;
         }
 
@@ -160,8 +142,4 @@ $(#btn_clear).on("click", function() {
     while (records.length) {
         records.remove(0);
     }
-});
-
-$(#btn_send).on("click", function() {
-    view.sendCmd2("");
 });
